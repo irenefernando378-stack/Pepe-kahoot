@@ -1,21 +1,547 @@
-<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PEPE · Quiz a squadre</title><style>*{box-sizing:border-box}body{margin:0;background:#f7efe3;color:#412832;font-family:Arial,sans-serif}.wrap{max-width:1150px;margin:auto;padding:25px}.top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #dbc5af;padding-bottom:20px}.logo{font:bold 48px Georgia;color:#782238;letter-spacing:.14em}.card{background:#fffaf4;border:1px solid #e4d0b8;border-radius:20px;padding:28px;margin:22px 0;box-shadow:0 12px 40px #78223810}h1,h2{font-family:Georgia;color:#782238}h1{font-size:clamp(36px,5vw,65px);text-align:center}h2{font-size:30px}button,input,select{font:inherit;padding:15px;border-radius:10px;border:1px solid #d8c1a7}button{background:#782238;color:white;border:0;font-weight:bold;cursor:pointer}button:disabled{opacity:.5;cursor:default}button.alt{background:#e6d6c5;color:#782238}input{width:100%;max-width:420px;background:white}select{background:white}.center{text-align:center}.muted{color:#8b756b}.pin{font-size:clamp(55px,9vw,110px);font-weight:bold;letter-spacing:.1em;color:#782238}.teams{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}.team{padding:13px 20px;border:1px solid #dbc3a9;background:white;border-radius:15px;font-weight:bold}.answers{display:grid;grid-template-columns:1fr 1fr;gap:15px}.answer{padding:25px;text-align:left;min-height:100px;font-size:clamp(17px,2vw,24px);border-radius:14px}.answer:nth-child(1){background:#d63749}.answer:nth-child(2){background:#2478ba}.answer:nth-child(3){background:#c89b15}.answer:nth-child(4){background:#26875c}.answer.chosen{outline:6px solid #272329}.answer:disabled{opacity:.8}.bar{height:23px;background:#e9dcd0;border-radius:8px;overflow:hidden}.bar>div{height:100%;background:#b48979}.bar .right{background:#2c955b}.result{margin:17px 0}.resultline{display:flex;justify-content:space-between;margin-bottom:6px}.controls{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:25px}.big{font-size:clamp(30px,4vw,58px)}.timer{font-size:48px;font-weight:bold;color:#782238}.podium{display:grid;gap:12px}.podium>div{padding:20px;background:#f0e3d3;border-radius:12px;font-size:24px}.hide{display:none!important}.error{color:#bd243a;min-height:22px}.small{font-size:13px}.qr{width:200px;height:200px;object-fit:contain;background:white;padding:8px;border-radius:10px}a{color:#782238}@media(max-width:650px){.answers{grid-template-columns:1fr}.wrap{padding:13px}.card{padding:17px}.answer{min-height:75px}}</style></head><body><div class="wrap"><header class="top"><div class="logo">PEPE</div><div>✦ ITALIAN QUIZ ✦</div></header><main id="app"></main></div><script>
-const app=document.getElementById('app'), params=new URLSearchParams(location.search);let pin=params.get('pin')||'',role=params.get('role')||'',token='',state=null,stream=null,chosen=null,duration=20,lang='it';const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const txt={sv:{question:'FRÅGA',next:'NÄSTA FRÅGA',correct:'Rätt svar',join:'GÅ MED',team:'Lagnamn',winner:'VINNARE'},it:{question:'DOMANDA',next:'PROSSIMA DOMANDA',correct:'Risposta corretta',join:'ENTRA',team:'Nome della squadra',winner:'VINCITORE'},en:{question:'QUESTION',next:'NEXT QUESTION',correct:'Correct answer',join:'JOIN',team:'Team name',winner:'WINNER'}};
-async function api(url,data){let r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}),j=await r.json();if(!r.ok)throw Error(j.error||'Errore');return j}function error(e){let x=document.getElementById('err');if(x)x.textContent=e.message||e}
-function home(){app.innerHTML=`<section class="card center"><h1>IL GRANDE QUIZ PEPE</h1><p>Gioca a squadre, dal telefono, proprio come Kahoot!</p><div class="controls"><button onclick="setupHost()">🎤 Sono il presentatore</button><button class="alt" onclick="setupPlayer()">📱 Entra come squadra</button></div></section>`}
-function setupHost(){role='host';app.innerHTML=`<section class="card center"><h1>CREA UNA PARTITA</h1><p>Lingua delle domande</p><select id="language"><option value="it">Italiano</option></select><p>Tempo per domanda</p><select id="seconds"><option value="10">10 secondi</option><option value="20" selected>20 secondi</option><option value="30">30 secondi</option><option value="45">45 secondi</option><option value="60">60 secondi</option></select><div class="controls"><button onclick="create()">CREA PARTITA</button></div><p id="err" class="error"></p></section>`}
-async function create(){try{lang=document.getElementById('language').value;duration=+document.getElementById('seconds').value;let j=await api('/api/create',{lang});pin=j.pin;token=j.token;sessionStorage.setItem('pepe-host-'+pin,token);history.replaceState({},'',`/?role=host&pin=${pin}`);connect()}catch(e){error(e)}}
-function setupPlayer(){role='player';app.innerHTML=`<section class="card center"><h1>ENTRA NEL QUIZ</h1><p>PIN della partita</p><input id="pinInput" inputmode="numeric" maxlength="6" placeholder="123456" value="${esc(pin)}"><p>Nome della squadra</p><input id="teamInput" maxlength="32" placeholder="Team Pizza"><div class="controls"><button onclick="join()">ENTRA NELLA PARTITA</button></div><p id="err" class="error"></p></section>`}
-async function join(){try{let p=document.getElementById('pinInput').value.trim(),name=document.getElementById('teamInput').value.trim(),j=await api('/api/join',{pin:p,name});pin=j.pin;token=j.token;sessionStorage.setItem('pepe-player-'+pin,token);sessionStorage.setItem('pepe-name-'+pin,name);history.replaceState({},'',`/?role=player&pin=${pin}`);connect()}catch(e){error(e)}}
-function connect(){if(stream)stream.close();stream=new EventSource('/events?pin='+encodeURIComponent(pin));stream.onmessage=e=>{state=JSON.parse(e.data);render()};stream.onerror=()=>{if(!state)app.innerHTML='<div class="card center"><h2>Connessione persa</h2><p>Controlla il PIN o il server.</p></div>'}}
-async function control(action){try{await api('/api/control',{pin,token,action,duration:duration*1000})}catch(e){alert(e.message)}}
-async function answer(n){try{await api('/api/answer',{pin,token,answer:n});chosen=n;render()}catch(e){alert(e.message)}}
-function render(){if(!state)return;lang=state.lang;let t=txt[lang],host=role==='host',me=sessionStorage.getItem('pepe-name-'+pin);if(state.phase==='lobby'){let url=location.origin+'/?role=player&pin='+pin;app.innerHTML=`<section class="card center"><h2>${host?'ENTRA NELLA PARTITA':'SEI NELLA PARTITA!'}</h2>${host?`<p>Vai su <b>${esc(location.host)}</b> o scansiona il QR code</p><img class="qr" alt="QR per entrare" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}"><p class="muted small">Se il QR non compare, condividi il link: <a href="${esc(url)}">${esc(url)}</a></p>`:`<p>Squadra: <b>${esc(me)}</b></p><p>Attendi che il presentatore inizi…</p>`}<div class="pin">${esc(pin)}</div><h2>${state.teams.length} squadre iscritte</h2><div class="teams">${state.teams.map(x=>`<span class="team">${esc(x.name)}</span>`).join('')}</div>${host?`<div class="controls"><button onclick="control('start')">▶ INIZIA QUIZ</button></div>`:''}</section>`;return}
-if(state.phase==='end'){let ranking=[...state.teams].sort((a,b)=>b.score-a.score);app.innerHTML=`<section class="card center"><h1>🏆 ${t.winner}!</h1><h2 class="big">${esc(ranking[0]?.name||'')}</h2><div class="podium">${ranking.map((x,i)=>`<div>${['🥇','🥈','🥉'][i]||'⭐'} ${esc(x.name)} — ${x.score} punti</div>`).join('')}</div>${host?`<div class="controls"><button onclick="control('restart')">NUOVA PARTITA</button></div>`:''}</section>`;return}
-let q=state.question;let remaining=Math.max(0,Math.ceil((state.deadline-Date.now())/1000));let isResults=state.phase==='results';let controls=host?`<div class="controls">${isResults?`<button onclick="control('next')">${state.index===state.total-1?'🏆 PODIO FINALE':t.next+' →'}</button>`:`<button class="alt" onclick="control('reveal')">MOSTRA RISULTATI ORA</button>`}</div>`:'';
-let content=isResults?`<h2 class="center">✓ ${t.correct}: ${esc(q.a[state.correct])}</h2>${q.a.map((a,i)=>{let count=state.counts[i],total=state.teams.length,pct=total?Math.round(count/total*100):0;return `<div class="result"><div class="resultline"><b>${'ABCD'[i]}. ${esc(a)} ${i===state.correct?'✓':''}</b><b>${pct}% (${count})</b></div><div class="bar"><div class="${i===state.correct?'right':''}" style="width:${pct}%"></div></div></div>`}).join('')}`:host?`<p class="center timer" id="timer">${remaining}s</p><div class="answers">${q.a.map((a,i)=>`<div class="answer" style="color:white"><b>${'ABCD'[i]}.</b> ${esc(a)}</div>`).join('')}</div><h2 class="center">${state.answered} / ${state.teams.length} squadre hanno risposto</h2>`:`<p class="center timer" id="timer">${remaining}s</p><div class="answers">${q.a.map((a,i)=>`<button class="answer ${chosen===i?'chosen':''}" ${state.teams.find(x=>x.name===me)?.answered?'disabled':''} onclick="answer(${i})"><b>${'ABCD'[i]}.</b> ${esc(a)}</button>`).join('')}</div><p class="center">${state.teams.find(x=>x.name===me)?.answered?'✓ Risposta inviata!':'Seleziona una risposta'}</p>`;
-let ranking=[...state.teams].sort((a,b)=>b.score-a.score);app.innerHTML=`<section class="card"><p class="center muted">PEPE ✦ ${t.question} ${state.index+1}/${state.total} · PIN ${pin}</p><h1>${esc(q.q)}</h1>${content}${controls}</section>${isResults?`<section class="card center"><h2>CLASSIFICA</h2><div class="teams">${ranking.map((x,i)=>`<span class="team">${i+1}. ${esc(x.name)} · ${x.score}</span>`).join('')}</div></section>`:''}`;
+
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PEPE · Il Grande Quizzone Italiano</title>
+<style>
+:root{--wine:#722b42;--gold:#8a806f;--ink:#463b40;--paper:#f8f3eb;--line:#dfd2c6}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Georgia,'Times New Roman',serif}
+.wrap{max-width:1150px;margin:auto;padding:18px 26px 55px}
+.top{position:relative;display:flex;justify-content:center;align-items:center;min-height:45px}
+.languages{position:absolute;right:0;top:4px;display:flex;gap:4px;align-items:center}
+.languages button{font:600 11px Arial,sans-serif;letter-spacing:.05em;padding:5px 7px;border:1px solid transparent;border-radius:3px;background:transparent;color:var(--wine);cursor:pointer}
+.languages button.active{background:var(--wine);color:white}
+.eyebrow{display:inline-block;border:1px solid var(--line);border-radius:100px;padding:9px 19px;font:700 11px Arial,sans-serif;letter-spacing:.2em;color:var(--wine);text-transform:uppercase}
+.brand{text-align:center;padding-top:17px;font:700 12px Arial,sans-serif;letter-spacing:.36em;color:var(--wine)}
+.hero{text-align:center;padding:45px 0 30px}
+.hero h1{margin:0;line-height:.89;font-weight:400;text-transform:uppercase}
+.hero .grande{display:block;color:var(--wine);font-size:clamp(64px,12vw,148px);letter-spacing:-.055em}
+.hero .quizzone{display:block;color:var(--gold);font-size:clamp(54px,11vw,132px);font-style:italic;letter-spacing:-.075em}
+.hero .italiano{display:block;color:var(--gold);font-size:clamp(58px,11vw,138px);font-style:italic;letter-spacing:-.065em}
+.subtitle{margin:28px 0 0;color:var(--wine);font-size:clamp(28px,5vw,57px);font-style:italic}
+.minihero{text-align:center;margin:26px auto 20px;border-bottom:1px solid var(--line);padding-bottom:22px}
+.minihero .heading{color:var(--wine);font-size:clamp(26px,5vw,49px);line-height:1.05;text-transform:uppercase}
+.minihero .heading em{color:var(--gold);font-weight:400}
+.minihero .sub{margin-top:8px;color:var(--wine);font-style:italic;font-size:18px}
+.card{background:#fffdf9;border:1px solid var(--line);border-radius:12px;padding:28px;margin:18px auto;max-width:950px;box-shadow:0 10px 35px #722b4209}
+h2{font-weight:400;color:var(--wine);font-size:clamp(27px,4vw,40px)}
+p{line-height:1.5}
+button,input,select{font:inherit;padding:13px 16px;border-radius:6px;border:1px solid var(--line)}
+button{background:var(--wine);color:white;border:0;font-family:Arial,sans-serif;font-weight:700;cursor:pointer}
+button:disabled{opacity:.5;cursor:default}
+button.alt{background:#e9ded3;color:var(--wine)}
+input{width:100%;max-width:420px;background:white}
+select{background:white}
+.center{text-align:center}
+.muted{color:#8b756b}
+.pin{font:700 clamp(55px,9vw,110px) Arial,sans-serif;letter-spacing:.1em;color:var(--wine)}
+.teams{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.team{padding:13px 20px;border:1px solid var(--line);background:white;border-radius:8px;font-family:Arial,sans-serif;font-weight:bold}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.answer{padding:25px;text-align:left;min-height:100px;font-size:clamp(17px,2vw,24px);border-radius:9px;color:white}
+.answer:nth-child(1){background:#ba4252}
+.answer:nth-child(2){background:#4a7e9f}
+.answer:nth-child(3){background:#b6974f}
+.answer:nth-child(4){background:#55836e}
+.answer.chosen{outline:5px solid #32242a}
+.answer:disabled{opacity:.8}
+.bar{height:23px;background:#e9dcd0;border-radius:6px;overflow:hidden}
+.bar>div{height:100%;background:#b48979}
+.bar .right{background:#2c955b}
+.result{margin:17px 0}
+.resultline{display:flex;justify-content:space-between;gap:10px;margin-bottom:6px}
+.controls{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:25px}
+.big{font-size:clamp(30px,4vw,58px)}
+.timer{font:700 48px Arial,sans-serif;color:var(--wine)}
+.podium{display:grid;gap:12px}
+.podium>div{padding:20px;background:#f0e3d3;border-radius:8px;font-size:24px}
+.error{color:#bd243a;min-height:22px}
+.small{font-size:13px}
+.qr{width:200px;height:200px;object-fit:contain;background:white;padding:8px;border-radius:10px}
+a{color:var(--wine)}
+.question-title{font-size:clamp(30px,5vw,58px);text-align:center;line-height:1.1;margin:25px 0 30px}
+@media(max-width:650px){
+.wrap{padding:12px 13px 40px}
+.top{justify-content:flex-start;padding-top:5px}
+.eyebrow{font-size:8px;letter-spacing:.07em;padding:7px 9px;max-width:68%;text-align:center}
+.languages{top:5px}
+.brand{font-size:9px;letter-spacing:.19em}
+.hero{padding-top:55px}
+.hero .grande{font-size:clamp(55px,15vw,90px)}
+.hero .quizzone{font-size:clamp(48px,13vw,78px)}
+.hero .italiano{font-size:clamp(52px,14vw,85px)}
+.answers{grid-template-columns:1fr}
+.card{padding:17px}
+.answer{min-height:75px}
 }
-setInterval(()=>{let e=document.getElementById('timer');if(e&&state?.phase==='question')e.textContent=Math.max(0,Math.ceil((state.deadline-Date.now())/1000))+'s'},250);
-if(pin&&role){token=sessionStorage.getItem('pepe-'+role+'-'+pin)||'';if(token)connect();else if(role==='player')setupPlayer();else setupHost()}else home();
-</script></body></html>
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+<div class="eyebrow">PEPE ✦ NYÅRSAFTON ✦ CAPODANNO</div>
+<nav class="languages" aria-label="Lingua">
+<button type="button" data-lang="en" onclick="changeLanguage('en')">EN</button>
+<button type="button" data-lang="sv" onclick="changeLanguage('sv')">SV</button>
+<button type="button" data-lang="it" onclick="changeLanguage('it')">IT</button>
+</nav>
+</header>
+<div class="brand">PEPE · ITALIENSK RESTAURANG</div>
+<main id="app"></main>
+</div>
+<script>
+const app=document.getElementById('app'),params=new URLSearchParams(location.search);
+let pin=params.get('pin')||'',role=params.get('role')||'',token='',state=null,stream=null,chosen=null,duration=20;
+let lang=localStorage.getItem('pepe-language')||'it';
+if(!['it','en','sv'].includes(lang))lang='it';
+
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+const txt={
+it:{
+hero1:'IL GRANDE',hero2:'QUIZZONE',hero3:'ITALIANO',
+tag:'Quanto sei italiano?',
+homeDesc:'Gioca a squadre, dal telefono, proprio come Kahoot!',
+host:'Sono il presentatore',player:'Entra come squadra',
+create:'CREA UNA PARTITA',time:'Tempo per domanda',seconds:'secondi',
+createButton:'CREA PARTITA',enter:'ENTRA NEL QUIZ',
+pin:'PIN della partita',team:'Nome della squadra',
+enterButton:'ENTRA NELLA PARTITA',joined:'SEI NELLA PARTITA!',
+wait:'Attendi che il presentatore inizi…',teams:'squadre iscritte',
+start:'INIZIA QUIZ',visit:'Vai su',scan:'o scansiona il QR code',
+qrHelp:'Se il QR non compare, condividi il link:',
+question:'DOMANDA',next:'PROSSIMA DOMANDA',
+correct:'Risposta corretta',show:'MOSTRA RISULTATI ORA',
+final:'PODIO FINALE',ranking:'CLASSIFICA',
+answered:'squadre hanno risposto',sent:'Risposta inviata!',
+select:'Seleziona una risposta',winner:'VINCITORE',
+restart:'NUOVA PARTITA',points:'punti',
+connection:'Connessione persa',
+connectionHelp:'Controlla il PIN o il server.'
+},
+en:{
+hero1:'THE GREAT',hero2:'ITALIAN',hero3:'QUIZ',
+tag:'How Italian are you?',
+homeDesc:'Play in teams on your phone, just like Kahoot!',
+host:'I am the host',player:'Join as a team',
+create:'CREATE A GAME',time:'Time per question',seconds:'seconds',
+createButton:'CREATE GAME',enter:'JOIN THE QUIZ',
+pin:'Game PIN',team:'Team name',
+enterButton:'JOIN GAME',joined:'YOU ARE IN!',
+wait:'Wait for the host to start…',teams:'teams joined',
+start:'START QUIZ',visit:'Visit',scan:'or scan the QR code',
+qrHelp:'If the QR code does not appear, share this link:',
+question:'QUESTION',next:'NEXT QUESTION',
+correct:'Correct answer',show:'SHOW RESULTS NOW',
+final:'FINAL PODIUM',ranking:'LEADERBOARD',
+answered:'teams have answered',sent:'Answer submitted!',
+select:'Choose an answer',winner:'WINNER',
+restart:'NEW GAME',points:'points',
+connection:'Connection lost',
+connectionHelp:'Check the PIN or server.'
+},
+sv:{
+hero1:'DET STORA',hero2:'ITALIENSKA',hero3:'QUIZET',
+tag:'Hur italiensk är du?',
+homeDesc:'Spela i lag med mobilen, precis som Kahoot!',
+host:'Jag är spelledare',player:'Gå med som lag',
+create:'SKAPA ETT SPEL',time:'Tid per fråga',seconds:'sekunder',
+createButton:'SKAPA SPEL',enter:'GÅ MED I QUIZET',
+pin:'Spelkod',team:'Lagnamn',
+enterButton:'GÅ MED I SPELET',joined:'DU ÄR MED!',
+wait:'Vänta tills spelledaren startar…',teams:'lag har gått med',
+start:'STARTA QUIZET',visit:'Gå till',scan:'eller skanna QR-koden',
+qrHelp:'Om QR-koden inte visas, dela länken:',
+question:'FRÅGA',next:'NÄSTA FRÅGA',
+correct:'Rätt svar',show:'VISA RESULTAT NU',
+final:'SLUTRESULTAT',ranking:'TOPPLISTA',
+answered:'lag har svarat',sent:'Svaret har skickats!',
+select:'Välj ett svar',winner:'VINNARE',
+restart:'NYTT SPEL',points:'poäng',
+connection:'Anslutningen bröts',
+connectionHelp:'Kontrollera spelkoden eller servern.'
+}
+};
+
+function updateLanguageButtons(){
+document.documentElement.lang=lang;
+document.querySelectorAll('.languages button').forEach(b=>{
+let active=b.dataset.lang===lang;
+b.classList.toggle('active',active);
+b.setAttribute('aria-pressed',String(active));
+});
+}
+
+function changeLanguage(l){
+if(!txt[l])return;
+lang=l;
+localStorage.setItem('pepe-language',lang);
+updateLanguageButtons();
+if(state)render();
+else if(role==='host')setupHost();
+else if(role==='player')setupPlayer();
+else home();
+}
+
+function hero(){
+let t=txt[lang];
+return `<div class="hero">
+<h1>
+<span class="grande">${t.hero1}</span>
+<span class="quizzone">${t.hero2}</span>
+<span class="italiano">${t.hero3}</span>
+</h1>
+<p class="subtitle">${t.tag}</p>
+</div>`;
+}
+
+function miniHero(){
+let t=txt[lang];
+return `<div class="minihero">
+<div class="heading">${t.hero1} <em>${t.hero2} ${t.hero3}</em></div>
+<div class="sub">${t.tag}</div>
+</div>`;
+}
+
+function localizedQuestion(raw){
+if(!raw)return {q:'',a:[]};
+let source=raw;
+if(raw[lang]&&typeof raw[lang]==='object')source=raw[lang];
+else if(raw.it&&typeof raw.it==='object')source=raw.it;
+let q=source.q??raw.q??'';
+if(q&&typeof q==='object')q=q[lang]??q.it??q.en??q.sv??'';
+let a=source.a??raw.a??[];
+if(a&&!Array.isArray(a)&&typeof a==='object')
+a=a[lang]??a.it??a.en??a.sv??[];
+return {q:String(q),a:Array.isArray(a)?a:[]};
+}
+
+async function api(url,data){
+let r=await fetch(url,{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify(data)
+});
+let j=await r.json();
+if(!r.ok)throw Error(j.error||'Errore');
+return j;
+}
+
+function error(e){
+let x=document.getElementById('err');
+if(x)x.textContent=e.message||e;
+}
+
+function home(){
+let t=txt[lang];
+app.innerHTML=hero()+`
+<section class="card center">
+<p>${t.homeDesc}</p>
+<div class="controls">
+<button onclick="setupHost()">${t.host}</button>
+<button class="alt" onclick="setupPlayer()">${t.player}</button>
+</div>
+</section>`;
+}
+
+function setupHost(){
+role='host';
+let t=txt[lang];
+let options=[10,20,30,45,60].map(s=>
+`<option value="${s}" ${s===duration?'selected':''}>${s} ${t.seconds}</option>`
+).join('');
+
+app.innerHTML=miniHero()+`
+<section class="card center">
+<h2>${t.create}</h2>
+<p>${t.time}</p>
+<select id="seconds" onchange="duration=+this.value">
+${options}
+</select>
+<div class="controls">
+<button onclick="create()">${t.createButton}</button>
+</div>
+<p id="err" class="error"></p>
+</section>`;
+}
+
+async function create(){
+try{
+duration=+document.getElementById('seconds').value;
+let j=await api('/api/create',{lang:'it'});
+pin=j.pin;
+token=j.token;
+sessionStorage.setItem('pepe-host-'+pin,token);
+history.replaceState({},'',`/?role=host&pin=${pin}`);
+connect();
+}catch(e){error(e)}
+}
+
+function setupPlayer(){
+role='player';
+let t=txt[lang];
+let savedName=pin?sessionStorage.getItem('pepe-name-'+pin)||'':'';
+
+app.innerHTML=miniHero()+`
+<section class="card center">
+<h2>${t.enter}</h2>
+<p>${t.pin}</p>
+<input id="pinInput" inputmode="numeric" maxlength="6"
+placeholder="123456" value="${esc(pin)}">
+<p>${t.team}</p>
+<input id="teamInput" maxlength="32"
+placeholder="Team Pizza" value="${esc(savedName)}">
+<div class="controls">
+<button onclick="join()">${t.enterButton}</button>
+</div>
+<p id="err" class="error"></p>
+</section>`;
+}
+
+async function join(){
+try{
+let p=document.getElementById('pinInput').value.trim();
+let name=document.getElementById('teamInput').value.trim();
+let j=await api('/api/join',{pin:p,name});
+pin=j.pin;
+token=j.token;
+sessionStorage.setItem('pepe-player-'+pin,token);
+sessionStorage.setItem('pepe-name-'+pin,name);
+history.replaceState({},'',`/?role=player&pin=${pin}`);
+connect();
+}catch(e){error(e)}
+}
+
+function connect(){
+if(stream)stream.close();
+stream=new EventSource('/events?pin='+encodeURIComponent(pin));
+
+stream.onmessage=e=>{
+let oldIndex=state?.index,oldPhase=state?.phase;
+state=JSON.parse(e.data);
+if(state.phase==='question'&&
+(oldIndex!==state.index||oldPhase!=='question'))
+chosen=null;
+render();
+};
+
+stream.onerror=()=>{
+if(!state){
+let t=txt[lang];
+app.innerHTML=miniHero()+`
+<div class="card center">
+<h2>${t.connection}</h2>
+<p>${t.connectionHelp}</p>
+</div>`;
+}
+};
+}
+
+async function control(action){
+try{
+await api('/api/control',{
+pin,token,action,duration:duration*1000
+});
+}catch(e){alert(e.message)}
+}
+
+async function answer(n){
+try{
+await api('/api/answer',{pin,token,answer:n});
+chosen=n;
+render();
+}catch(e){alert(e.message)}
+}
+
+function render(){
+if(!state)return;
+
+let t=txt[lang];
+let host=role==='host';
+let me=sessionStorage.getItem('pepe-name-'+pin);
+let prefix=miniHero();
+
+if(state.phase==='lobby'){
+let url=location.origin+'/?role=player&pin='+pin;
+
+app.innerHTML=prefix+`
+<section class="card center">
+<h2>${host?t.enterButton:t.joined}</h2>
+${host?`
+<p>${t.visit} <b>${esc(location.host)}</b> ${t.scan}</p>
+<img class="qr" alt="QR"
+src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}">
+<p class="muted small">
+${t.qrHelp}
+<a href="${esc(url)}">${esc(url)}</a>
+</p>
+`:`
+<p>${t.team}: <b>${esc(me)}</b></p>
+<p>${t.wait}</p>
+`}
+<div class="pin">${esc(pin)}</div>
+<h2>${state.teams.length} ${t.teams}</h2>
+<div class="teams">
+${state.teams.map(x=>`
+<span class="team">${esc(x.name)}</span>
+`).join('')}
+</div>
+${host?`
+<div class="controls">
+<button onclick="control('start')">${t.start}</button>
+</div>`:''}
+</section>`;
+return;
+}
+
+if(state.phase==='end'){
+let ranking=[...state.teams].sort((a,b)=>b.score-a.score);
+
+app.innerHTML=prefix+`
+<section class="card center">
+<h2>🏆 ${t.winner}!</h2>
+<h2 class="big">${esc(ranking[0]?.name||'')}</h2>
+<div class="podium">
+${ranking.map((x,i)=>`
+<div>
+${['🥇','🥈','🥉'][i]||'⭐'}
+${esc(x.name)} — ${x.score} ${t.points}
+</div>
+`).join('')}
+</div>
+${host?`
+<div class="controls">
+<button onclick="control('restart')">${t.restart}</button>
+</div>`:''}
+</section>`;
+return;
+}
+
+let q=localizedQuestion(state.question);
+let remaining=Math.max(
+0,Math.ceil((state.deadline-Date.now())/1000)
+);
+let isResults=state.phase==='results';
+
+let controls=host?`
+<div class="controls">
+${isResults?`
+<button onclick="control('next')">
+${state.index===state.total-1?t.final:t.next+' →'}
+</button>
+`:`
+<button class="alt" onclick="control('reveal')">
+${t.show}
+</button>
+`}
+</div>`:'';
+
+let content;
+
+if(isResults){
+content=`
+<h2 class="center">
+✓ ${t.correct}: ${esc(q.a[state.correct]??'')}
+</h2>
+${q.a.map((a,i)=>{
+let count=state.counts?.[i]??0;
+let total=state.teams.length;
+let pct=total?Math.round(count/total*100):0;
+
+return `
+<div class="result">
+<div class="resultline">
+<b>${'ABCD'[i]}. ${esc(a)}
+${i===state.correct?'✓':''}</b>
+<b>${pct}% (${count})</b>
+</div>
+<div class="bar">
+<div class="${i===state.correct?'right':''}"
+style="width:${pct}%"></div>
+</div>
+</div>`;
+}).join('')}`;
+
+}else if(host){
+content=`
+<p class="center timer" id="timer">${remaining}s</p>
+<div class="answers">
+${q.a.map((a,i)=>`
+<div class="answer">
+<b>${'ABCD'[i]}.</b> ${esc(a)}
+</div>
+`).join('')}
+</div>
+<h2 class="center">
+${state.answered} / ${state.teams.length} ${t.answered}
+</h2>`;
+
+}else{
+let hasAnswered=state.teams.find(x=>x.name===me)?.answered;
+
+content=`
+<p class="center timer" id="timer">${remaining}s</p>
+<div class="answers">
+${q.a.map((a,i)=>`
+<button class="answer ${chosen===i?'chosen':''}"
+${hasAnswered?'disabled':''}
+onclick="answer(${i})">
+<b>${'ABCD'[i]}.</b> ${esc(a)}
+</button>
+`).join('')}
+</div>
+<p class="center">
+${hasAnswered?t.sent:t.select}
+</p>`;
+}
+
+let ranking=[...state.teams].sort((a,b)=>b.score-a.score);
+
+app.innerHTML=prefix+`
+<section class="card">
+<p class="center muted">
+PEPE ✦ ${t.question} ${state.index+1}/${state.total}
+· PIN ${esc(pin)}
+</p>
+<h2 class="question-title">${esc(q.q)}</h2>
+${content}
+${controls}
+</section>
+${isResults?`
+<section class="card center">
+<h2>${t.ranking}</h2>
+<div class="teams">
+${ranking.map((x,i)=>`
+<span class="team">
+${i+1}. ${esc(x.name)} · ${x.score}
+</span>
+`).join('')}
+</div>
+</section>`:''}`;
+}
+
+setInterval(()=>{
+let e=document.getElementById('timer');
+if(e&&state?.phase==='question'){
+e.textContent=Math.max(
+0,Math.ceil((state.deadline-Date.now())/1000)
+)+'s';
+}
+},250);
+
+updateLanguageButtons();
+
+if(pin&&role){
+token=sessionStorage.getItem('pepe-'+role+'-'+pin)||'';
+if(token)connect();
+else if(role==='player')setupPlayer();
+else setupHost();
+}else{
+home();
+}
+</script>
+</body>
+</html>
