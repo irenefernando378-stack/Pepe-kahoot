@@ -1,203 +1,308 @@
+
 {
   "it": [
     {
       "q": "Qual è la capitale dell'Italia?",
-      "a": [
-        "Milano",
-        "Roma",
-        "Napoli",
-        "IKEA"
-      ],
+      "a": ["Milano", "Roma", "Napoli", "IKEA"],
       "c": 1
     },
     {
       "q": "Come capisci se una persona è italiana?",
-      "a": [
-        "Gesticola mentre parla",
-        "Arriva sempre in anticipo",
-        "Organizza una cena alle 16:30",
-        "Dice «oj oj oj» quando succede qualcosa"
-      ],
+      "a": ["Gesticola mentre parla", "Arriva sempre in anticipo", "Organizza una cena alle 16:30", "Dice «oj oj oj» quando succede qualcosa"],
       "c": 0
     },
     {
       "q": "Chi è il Presidente della Repubblica Italiana?",
-      "a": [
-        "Giorgia Meloni",
-        "Sergio Mattarella",
-        "Massimiliano Pepe",
-        "Robert Gustafsson"
-      ],
+      "a": ["Giorgia Meloni", "Sergio Mattarella", "Massimiliano Pepe", "Robert Gustafsson"],
       "c": 1
     },
     {
       "q": "Cosa significa il famoso gesto italiano 🤌🏻?",
-      "a": [
-        "«Ma che vuoi?»",
-        "«Scusami, sono svedese»",
-        "«È l'ora della fika?»",
-        "«Non ho capito!»"
-      ],
+      "a": ["«Ma che vuoi?»", "«Scusami, sono svedese»", "«È l'ora della fika?»", "«Non ho capito!»"],
       "c": 0
     },
     {
       "q": "Quale ordinazione farebbe inorridire un pizzaiolo napoletano?",
-      "a": [
-        "Una pizza Margherita",
-        "Una pizza con ananas, banana, prosciutto e curry",
-        "Una pizza fritta",
-        "Una birra"
-      ],
+      "a": ["Una pizza Margherita", "Una pizza con ananas, banana, prosciutto e curry", "Una pizza fritta", "Una birra"],
       "c": 1
     },
     {
       "q": "Cosa NON si dovrebbe fare con gli spaghetti davanti a un italiano?",
-      "a": [
-        "Spezzarli prima di cuocerli",
-        "Mangiarli con la forchetta",
-        "Aggiungere il pomodoro",
-        "Aggiungere il parmigiano"
-      ],
+      "a": ["Spezzarli prima di cuocerli", "Mangiarli con la forchetta", "Aggiungere il pomodoro", "Aggiungere il parmigiano"],
       "c": 0
     },
     {
       "q": "Quale ingrediente NON si mette nella carbonara tradizionale?",
-      "a": [
-        "Guanciale",
-        "Uova",
-        "Panna, che gli svedesi mettono ovunque",
-        "Pecorino"
-      ],
+      "a": ["Guanciale", "Uova", "Panna, che gli svedesi mettono ovunque", "Pecorino"],
       "c": 2
     },
     {
       "q": "Cosa si mette nel tiramisù?",
-      "a": [
-        "Panna",
-        "Mascarpone",
-        "Formaggio spalmabile al gusto gamberetti",
-        "Parmigiano"
-      ],
+      "a": ["Panna", "Mascarpone", "Formaggio spalmabile al gusto gamberetti", "Parmigiano"],
       "c": 1
     },
     {
       "q": "Quale di queste cose NON dovresti fare a tavola davanti a un italiano?",
-      "a": [
-        "Chiedere un bicchiere di vino",
-        "Mettere il ketchup sugli spaghetti",
-        "Fare la scarpetta",
-        "Ordinare il dolce"
-      ],
+      "a": ["Chiedere un bicchiere di vino", "Mettere il ketchup sugli spaghetti", "Fare la scarpetta", "Ordinare il dolce"],
       "c": 1
     },
     {
       "q": "Quale piatto di pasta farebbe discutere un italiano davanti a un menu svedese?",
-      "a": [
-        "Pasta alla carbonara",
-        "Pasta al pomodoro",
-        "Pasta oxfilé",
-        "Pasta al pesto"
-      ],
+      "a": ["Pasta alla carbonara", "Pasta al pomodoro", "Pasta oxfilé", "Pasta al pesto"],
       "c": 2
     },
     {
       "q": "Cosa ordina spesso un italiano dopo una bella cena?",
-      "a": [
-        "Un caffè lungo quanto l'inverno svedese",
-        "Un limoncello",
-        "Un bicchiere di latte",
-        "Un bicchiere d'acqua"
-      ],
+      "a": ["Un caffè lungo quanto l'inverno svedese", "Un limoncello", "Un bicchiere di latte", "Un bicchiere d'acqua"],
       "c": 1
     },
     {
       "q": "Cosa succede se uno svedese invita un italiano a cena fuori alle 17:00?",
-      "a": [
-        "Arriva puntuale",
-        "Non si presenta",
-        "È felicissimo",
-        "Ha già mangiato"
-      ],
+      "a": ["Arriva puntuale", "Non si presenta", "È felicissimo", "Ha già mangiato"],
       "c": 1
     },
     {
       "q": "Qual è la cosa più pericolosa da dire a una nonna italiana?",
-      "a": [
-        "«È buonissimo!»",
-        "«Ne voglio ancora!»",
-        "«Sono pieno, basta così»",
-        "«Mi passi il pane?»"
-      ],
+      "a": ["«È buonissimo!»", "«Ne voglio ancora!»", "«Sono pieno, basta così»", "«Mi passi il pane?»"],
       "c": 2
     },
     {
       "q": "Cosa prenderebbe Massimiliano di prima mattina se non lavorasse?",
-      "a": [
-        "Un tè verde",
-        "Un cappuccino",
-        "Un Negroni",
-        "Un bicchiere d'acqua"
-      ],
+      "a": ["Un tè verde", "Un cappuccino", "Un Negroni", "Un bicchiere d'acqua"],
       "c": 2
     },
     {
       "q": "Quale di questi è un prodotto eccezionale?",
-      "a": [
-        "Prosciutto di Parma",
-        "Falukorv",
-        "Kalles Kaviar",
-        "Oxfilé"
-      ],
+      "a": ["Prosciutto di Parma", "Falukorv", "Kalles Kaviar", "Oxfilé"],
       "c": 0
     },
     {
       "q": "Da dove viene il Chianti?",
-      "a": [
-        "Campania",
-        "Toscana",
-        "Sicilia",
-        "Da Systembolaget, dopo aver compilato tre moduli e chiesto il permesso al governo"
-      ],
+      "a": ["Campania", "Toscana", "Sicilia", "Da Systembolaget, dopo aver compilato tre moduli e chiesto il permesso al governo"],
       "c": 1
     },
     {
       "q": "Qual è il vino bianco della famiglia di Massimiliano Pepe?",
-      "a": [
-        "Chardonnay",
-        "Sauvignon Blanc",
-        "Falanghina",
-        "Riesling"
-      ],
+      "a": ["Chardonnay", "Sauvignon Blanc", "Falanghina", "Riesling"],
       "c": 2
     },
     {
       "q": "Da dove viene il Prosecco?",
-      "a": [
-        "Francia",
-        "Da un distributore automatico di acqua frizzante",
-        "Veneto e Friuli-Venezia Giulia",
-        "Dalla cantina di Massimiliano, quando ha finito il Negroni"
-      ],
+      "a": ["Francia", "Da un distributore automatico di acqua frizzante", "Veneto e Friuli-Venezia Giulia", "Dalla cantina di Massimiliano, quando ha finito il Negroni"],
       "c": 2
     },
     {
       "q": "Cosa succede se sei in Italia e chiedi un vino senza alcol?",
-      "a": [
-        "Te lo portano",
-        "Ti portano una bottiglia di succo di mirtilli",
-        "Ti guardano come se avessi insultato la nonna",
-        "Ti ringraziano"
-      ],
+      "a": ["Te lo portano", "Ti portano una bottiglia di succo di mirtilli", "Ti guardano come se avessi insultato la nonna", "Ti ringraziano"],
       "c": 2
     },
     {
       "q": "Qual è il vino bianco della famiglia di Massimiliano Pepe?",
-      "a": [
-        "Chianti",
-        "Un vino svedese che fa schifo",
-        "Falanghina",
-        "Lugana"
-      ],
+      "a": ["Chianti", "Un vino svedese che fa schifo", "Falanghina", "Lugana"],
+      "c": 2
+    }
+  ],
+  "sv": [
+    {
+      "q": "Vad är Italiens huvudstad?",
+      "a": ["Milano", "Rom", "Neapel", "IKEA"],
+      "c": 1
+    },
+    {
+      "q": "Hur märker man att någon är italienare?",
+      "a": ["Personen gestikulerar när den pratar", "Personen kommer alltid för tidigt", "Personen ordnar middag klockan 16.30", "Personen säger «oj oj oj» när något händer"],
+      "c": 0
+    },
+    {
+      "q": "Vem är Italiens president?",
+      "a": ["Giorgia Meloni", "Sergio Mattarella", "Massimiliano Pepe", "Robert Gustafsson"],
+      "c": 1
+    },
+    {
+      "q": "Vad betyder den berömda italienska handgesten 🤌🏻?",
+      "a": ["«Men vad vill du?»", "«Ursäkta, jag är svensk»", "«Är det dags för fika?»", "«Jag förstår inte!»"],
+      "c": 0
+    },
+    {
+      "q": "Vilken beställning skulle få en pizzabagare från Neapel att få panik?",
+      "a": ["En Margherita", "En pizza med ananas, banan, skinka och curry", "En friterad pizza", "En öl"],
+      "c": 1
+    },
+    {
+      "q": "Vad ska man INTE göra med spaghetti framför en italienare?",
+      "a": ["Bryta spaghettin innan man kokar den", "Äta den med gaffel", "Tillsätta tomat", "Tillsätta parmesan"],
+      "c": 0
+    },
+    {
+      "q": "Vilken ingrediens hör INTE hemma i en traditionell carbonara?",
+      "a": ["Guanciale", "Ägg", "Grädde, som svenskarna har i precis allt", "Pecorino"],
+      "c": 2
+    },
+    {
+      "q": "Vad använder man i tiramisù?",
+      "a": ["Grädde", "Mascarpone", "Räkost", "Parmesan"],
+      "c": 1
+    },
+    {
+      "q": "Vad ska du INTE göra vid matbordet framför en italienare?",
+      "a": ["Be om ett glas vin", "Ha ketchup på spaghettin", "Doppa bröd i den sista såsen", "Beställa dessert"],
+      "c": 1
+    },
+    {
+      "q": "Vilken pastarätt på en svensk meny skulle få en italienare att börja diskutera?",
+      "a": ["Pasta carbonara", "Pasta med tomatsås", "Pasta oxfilé", "Pasta pesto"],
+      "c": 2
+    },
+    {
+      "q": "Vad beställer en italienare ofta efter en riktigt god middag?",
+      "a": ["En kaffe lika lång som den svenska vintern", "En limoncello", "Ett glas mjölk", "Ett glas vatten"],
+      "c": 1
+    },
+    {
+      "q": "Vad händer om en svensk bjuder en italienare på middag ute klockan 17.00?",
+      "a": ["Italienaren kommer i tid", "Italienaren dyker inte upp", "Italienaren blir överlycklig", "Italienaren har redan ätit"],
+      "c": 1
+    },
+    {
+      "q": "Vad är det farligaste man kan säga till en italiensk mormor eller farmor?",
+      "a": ["«Det är jättegott!»", "«Jag vill ha mer!»", "«Jag är mätt, det räcker nu»", "«Kan du skicka brödet?»"],
+      "c": 2
+    },
+    {
+      "q": "Vad skulle Massimiliano dricka tidigt på morgonen om han inte jobbade?",
+      "a": ["Grönt te", "En cappuccino", "En Negroni", "Ett glas vatten"],
+      "c": 2
+    },
+    {
+      "q": "Vilken av dessa produkter är något alldeles extra?",
+      "a": ["Prosciutto di Parma", "Falukorv", "Kalles Kaviar", "Oxfilé"],
+      "c": 0
+    },
+    {
+      "q": "Varifrån kommer Chianti?",
+      "a": ["Kampanien", "Toscana", "Sicilien", "Från Systembolaget, efter att ha fyllt i tre blanketter och bett regeringen om lov"],
+      "c": 1
+    },
+    {
+      "q": "Vilket är Massimiliano Pepes familjs vita vin?",
+      "a": ["Chardonnay", "Sauvignon Blanc", "Falanghina", "Riesling"],
+      "c": 2
+    },
+    {
+      "q": "Varifrån kommer Prosecco?",
+      "a": ["Frankrike", "Från en automat med kolsyrat vatten", "Veneto och Friuli-Venezia Giulia", "Från Massimilianos vinkällare när hans Negroni är slut"],
+      "c": 2
+    },
+    {
+      "q": "Vad händer om du ber om alkoholfritt vin i Italien?",
+      "a": ["Du får det serverat", "Du får en flaska blåbärssaft", "De tittar på dig som om du förolämpat deras mormor", "De tackar dig"],
+      "c": 2
+    },
+    {
+      "q": "Vilket är Massimiliano Pepes familjs vita vin?",
+      "a": ["Chianti", "Ett svenskt vin som smakar skit", "Falanghina", "Lugana"],
+      "c": 2
+    }
+  ],
+  "en": [
+    {
+      "q": "What is the capital of Italy?",
+      "a": ["Milan", "Rome", "Naples", "IKEA"],
+      "c": 1
+    },
+    {
+      "q": "How can you tell if someone is Italian?",
+      "a": ["They talk with their hands", "They always arrive early", "They organize dinner at 4:30 PM", "They say «oj oj oj» when something happens"],
+      "c": 0
+    },
+    {
+      "q": "Who is the President of Italy?",
+      "a": ["Giorgia Meloni", "Sergio Mattarella", "Massimiliano Pepe", "Robert Gustafsson"],
+      "c": 1
+    },
+    {
+      "q": "What does the famous Italian hand gesture 🤌🏻 mean?",
+      "a": ["«What do you want?»", "«Sorry, I'm Swedish»", "«Is it fika time?»", "«I don't understand!»"],
+      "c": 0
+    },
+    {
+      "q": "Which order would horrify a pizza chef from Naples?",
+      "a": ["A Margherita pizza", "A pizza with pineapple, banana, ham and curry", "A fried pizza", "A beer"],
+      "c": 1
+    },
+    {
+      "q": "What should you NEVER do to spaghetti in front of an Italian?",
+      "a": ["Break it before cooking", "Eat it with a fork", "Add tomato sauce", "Add Parmesan"],
+      "c": 0
+    },
+    {
+      "q": "Which ingredient does NOT belong in traditional carbonara?",
+      "a": ["Guanciale", "Eggs", "Cream, which Swedes put in absolutely everything", "Pecorino"],
+      "c": 2
+    },
+    {
+      "q": "What goes into tiramisù?",
+      "a": ["Cream", "Mascarpone", "Shrimp-flavoured cream cheese", "Parmesan"],
+      "c": 1
+    },
+    {
+      "q": "Which of these should you NEVER do at the table in front of an Italian?",
+      "a": ["Ask for a glass of wine", "Put ketchup on spaghetti", "Use bread to mop up the sauce", "Order dessert"],
+      "c": 1
+    },
+    {
+      "q": "Which pasta dish on a Swedish menu would start an argument with an Italian?",
+      "a": ["Pasta carbonara", "Pasta with tomato sauce", "Pasta oxfilé", "Pasta pesto"],
+      "c": 2
+    },
+    {
+      "q": "What does an Italian often order after a lovely dinner?",
+      "a": ["A coffee as long as the Swedish winter", "A limoncello", "A glass of milk", "A glass of water"],
+      "c": 1
+    },
+    {
+      "q": "What happens if a Swede invites an Italian out for dinner at 5 PM?",
+      "a": ["The Italian arrives on time", "The Italian doesn't show up", "The Italian is delighted", "The Italian has already eaten"],
+      "c": 1
+    },
+    {
+      "q": "What's the most dangerous thing to say to an Italian grandmother?",
+      "a": ["«It's delicious!»", "«I want some more!»", "«I'm full, that's enough»", "«Could you pass the bread?»"],
+      "c": 2
+    },
+    {
+      "q": "What would Massimiliano drink first thing in the morning if he didn't have to work?",
+      "a": ["Green tea", "A cappuccino", "A Negroni", "A glass of water"],
+      "c": 2
+    },
+    {
+      "q": "Which of these is an exceptional product?",
+      "a": ["Prosciutto di Parma", "Falukorv", "Kalles Kaviar", "Oxfilé"],
+      "c": 0
+    },
+    {
+      "q": "Where does Chianti come from?",
+      "a": ["Campania", "Tuscany", "Sicily", "Systembolaget, after filling out three forms and asking the government for permission"],
+      "c": 1
+    },
+    {
+      "q": "Which white wine comes from Massimiliano Pepe's family?",
+      "a": ["Chardonnay", "Sauvignon Blanc", "Falanghina", "Riesling"],
+      "c": 2
+    },
+    {
+      "q": "Where does Prosecco come from?",
+      "a": ["France", "A sparkling-water vending machine", "Veneto and Friuli-Venezia Giulia", "Massimiliano's wine cellar, when he runs out of Negroni"],
+      "c": 2
+    },
+    {
+      "q": "What happens if you ask for alcohol-free wine in Italy?",
+      "a": ["They bring it to you", "They bring you a bottle of blueberry juice", "They look at you as if you've insulted their grandmother", "They thank you"],
+      "c": 2
+    },
+    {
+      "q": "Which white wine comes from Massimiliano Pepe's family?",
+      "a": ["Chianti", "A Swedish wine that tastes like crap", "Falanghina", "Lugana"],
       "c": 2
     }
   ]
