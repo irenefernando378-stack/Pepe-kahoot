@@ -1,0 +1,204 @@
+{
+  "it": [
+    {
+      "q": "Qual è la capitale dell'Italia?",
+      "a": [
+        "Milano",
+        "Roma",
+        "Napoli",
+        "IKEA"
+      ],
+      "c": 1
+    },
+    {
+      "q": "Come capisci se una persona è italiana?",
+      "a": [
+        "Gesticola mentre parla",
+        "Arriva sempre in anticipo",
+        "Organizza una cena alle 16:30",
+        "Dice «oj oj oj» quando succede qualcosa"
+      ],
+      "c": 0
+    },
+    {
+      "q": "Chi è il Presidente della Repubblica Italiana?",
+      "a": [
+        "Giorgia Meloni",
+        "Sergio Mattarella",
+        "Massimiliano Pepe",
+        "Robert Gustafsson"
+      ],
+      "c": 1
+    },
+    {
+      "q": "Cosa significa il famoso gesto italiano 🤌🏻?",
+      "a": [
+        "«Ma che vuoi?»",
+        "«Scusami, sono svedese»",
+        "«È l'ora della fika?»",
+        "«Non ho capito!»"
+      ],
+      "c": 0
+    },
+    {
+      "q": "Quale ordinazione farebbe inorridire un pizzaiolo napoletano?",
+      "a": [
+        "Una pizza Margherita",
+        "Una pizza con ananas, banana, prosciutto e curry",
+        "Una pizza fritta",
+        "Una birra"
+      ],
+      "c": 1
+    },
+    {
+      "q": "Cosa NON si dovrebbe fare con gli spaghetti davanti a un italiano?",
+      "a": [
+        "Spezzarli prima di cuocerli",
+        "Mangiarli con la forchetta",
+        "Aggiungere il pomodoro",
+        "Aggiungere il parmigiano"
+      ],
+      "c": 0
+    },
+    {
+      "q": "Quale ingrediente NON si mette nella carbonara tradizionale?",
+      "a": [
+        "Guanciale",
+        "Uova",
+        "Panna, che gli svedesi mettono ovunque",
+        "Pecorino"
+      ],
+      "c": 2
+    },
+    {
+      "q": "Cosa si mette nel tiramisù?",
+      "a": [
+        "Panna",
+        "Mascarpone",
+        "Formaggio spalmabile al gusto gamberetti",
+        "Parmigiano"
+      ],
+      "c": 1
+    },
+    {
+      "q": "Quale di queste cose NON dovresti fare a tavola davanti a un italiano?",
+      "a": [
+        "Chiedere un bicchiere di vino",
+        "Mettere il ketchup sugli spaghetti",
+        "Fare la scarpetta",
+        "Ordinare il dolce"
+      ],
+      "c": 1
+    },
+    {
+      "q": "Quale piatto di pasta farebbe discutere un italiano davanti a un menu svedese?",
+      "a": [
+        "Pasta alla carbonara",
+        "Pasta al pomodoro",
+        "Pasta oxfilé",
+        "Pasta al pesto"
+      ],
+      "c": 2
+    },
+    {
+      "q": "Cosa ordina spesso un italiano dopo una bella cena?",
+      "a": [
+        "Un caffè lungo quanto l'inverno svedese",
+        "Un limoncello",
+        "Un bicchiere di latte",
+        "Un bicchiere d'acqua"
+      ],
+      "c": 1
+    },
+    {
+      "q": "Cosa succede se uno svedese invita un italiano a cena fuori alle 17:00?",
+      "a": [
+        "Arriva puntuale",
+        "Non si presenta",
+        "È felicissimo",
+        "Ha già mangiato"
+      ],
+      "c": 1
+    },
+    {
+      "q": "Qual è la cosa più pericolosa da dire a una nonna italiana?",
+      "a": [
+        "«È buonissimo!»",
+        "«Ne voglio ancora!»",
+        "«Sono pieno, basta così»",
+        "«Mi passi il pane?»"
+      ],
+      "c": 2
+    },
+    {
+      "q": "Cosa prenderebbe Massimiliano di prima mattina se non lavorasse?",
+      "a": [
+        "Un tè verde",
+        "Un cappuccino",
+        "Un Negroni",
+        "Un bicchiere d'acqua"
+      ],
+      "c": 2
+    },
+    {
+      "q": "Quale di questi è un prodotto eccezionale?",
+      "a": [
+        "Prosciutto di Parma",
+        "Falukorv",
+        "Kalles Kaviar",
+        "Oxfilé"
+      ],
+      "c": 0
+    },
+    {
+      "q": "Da dove viene il Chianti?",
+      "a": [
+        "Campania",
+        "Toscana",
+        "Sicilia",
+        "Da Systembolaget, dopo aver compilato tre moduli e chiesto il permesso al governo"
+      ],
+      "c": 1
+    },
+    {
+      "q": "Qual è il vino bianco della famiglia di Massimiliano Pepe?",
+      "a": [
+        "Chardonnay",
+        "Sauvignon Blanc",
+        "Falanghina",
+        "Riesling"
+      ],
+      "c": 2
+    },
+    {
+      "q": "Da dove viene il Prosecco?",
+      "a": [
+        "Francia",
+        "Da un distributore automatico di acqua frizzante",
+        "Veneto e Friuli-Venezia Giulia",
+        "Dalla cantina di Massimiliano, quando ha finito il Negroni"
+      ],
+      "c": 2
+    },
+    {
+      "q": "Cosa succede se sei in Italia e chiedi un vino senza alcol?",
+      "a": [
+        "Te lo portano",
+        "Ti portano una bottiglia di succo di mirtilli",
+        "Ti guardano come se avessi insultato la nonna",
+        "Ti ringraziano"
+      ],
+      "c": 2
+    },
+    {
+      "q": "Qual è il vino bianco della famiglia di Massimiliano Pepe?",
+      "a": [
+        "Chianti",
+        "Un vino svedese che fa schifo",
+        "Falanghina",
+        "Lugana"
+      ],
+      "c": 2
+    }
+  ]
+}
